@@ -77,7 +77,7 @@ This library is built with the [esp8266-setup](http://github.com/esp8266-setup/e
 If you are already using the `esp8266-setup` build system just issue the following command in your project dir:
 
 ```bash
-esp8266-setup add-library git+https://github.com/esp8266-setup/ws2812_i2s.git
+esp8266-setup add-library git+https://github.com/esp8266-setup/ws2812_i2s.git@master
 ```
 
 If you do not want to use the `esp8266-setup` build system just grab the files from the `src` and `include` directories and add them to your project.

@@ -3,7 +3,7 @@
     "name": "ws2812_i2s", 
     "license": "MIT", 
     "author": "Johannes Schriewer <hallo@dunkelstern.de>", 
-    "url": "git+https://github.com/esp8266-setup/ws2812-i2s.git", 
+    "url": "git+https://github.com/esp8266-setup/ws2812-i2s.git@master", 
     "version": "1.0.0",
     "dependencies": [], 
     "extra_includes": "", 
