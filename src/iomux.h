@@ -9,6 +9,8 @@
 #ifndef _ESP_IOMUX_H
 #define _ESP_IOMUX_H
 
+#include <stdint.h>
+
 typedef volatile uint32_t *esp_reg_t;
 
 #include "iomux_regs.h"
