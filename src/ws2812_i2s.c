@@ -104,6 +104,8 @@ static inline void init_descriptors_list(uint8_t *buf, uint32_t total_dma_data_s
 }
 
 void ws2812_i2s_init(uint32_t pixels_number) {
+    LOG(TRACE, "ws2812: Initializing for %d pixels", pixels_number);
+
     dma_buffer_size = pixels_number * DMA_PIXEL_SIZE;
     dma_block_list_size = dma_buffer_size / MAX_DMA_BLOCK_SIZE;
 
@@ -152,6 +154,8 @@ static const uint16_t bitpatterns[16] = {
 #endif
 
 void ws2812_i2s_update(ws2812_pixel_t *pixels) {
+    LOG(TRACE, "ws2812: Updating DMA buffers");
+
     while (i2s_dma_processing) {};
 
     uint16_t *p_dma_buf = dma_buffer;

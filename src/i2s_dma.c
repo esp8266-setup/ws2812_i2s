@@ -54,6 +54,8 @@ void rom_i2c_writeReg_Mask(uint32_t block, uint32_t host_id,
 
 
 void i2s_dma_init(i2s_dma_isr_t isr, void *arg, i2s_clock_div_t clock_div, i2s_pins_t pins) {
+    LOG(TRACE, "i2s: Initializing i2s DMA");
+
     // reset DMA
     SET_MASK_BITS(SLC.CONF0, SLC_CONF0_RX_LINK_RESET);
     CLEAR_MASK_BITS(SLC.CONF0, SLC_CONF0_RX_LINK_RESET);
@@ -72,6 +74,8 @@ void i2s_dma_init(i2s_dma_isr_t isr, void *arg, i2s_clock_div_t clock_div, i2s_p
     CLEAR_MASK_BITS(SLC.RX_DESCRIPTOR_CONF, SLC_RX_DESCRIPTOR_CONF_RX_FILL_ENABLE |
             SLC_RX_DESCRIPTOR_CONF_RX_EOF_MODE | SLC_RX_DESCRIPTOR_CONF_RX_FILL_MODE);
 
+    LOG(TRACE, "i2s: Attaching ISR");
+
     if (isr) {
         _xt_isr_attach(INUM_SLC, isr, arg);
         SET_MASK_BITS(SLC.INT_ENABLE, SLC_INT_ENABLE_RX_EOF);
@@ -82,6 +86,8 @@ void i2s_dma_init(i2s_dma_isr_t isr, void *arg, i2s_clock_div_t clock_div, i2s_p
     // start transmission
     SET_MASK_BITS(SLC.RX_LINK, SLC_RX_LINK_START);
 
+    LOG(TRACE, "i2s: Setting IOMUX");
+
     if (pins.data) {
         iomux_set_function(gpio_to_iomux(3), IOMUX_GPIO3_FUNC_I2SO_DATA);
     }
@@ -91,6 +97,8 @@ void i2s_dma_init(i2s_dma_isr_t isr, void *arg, i2s_clock_div_t clock_div, i2s_p
     if (pins.ws) {
         iomux_set_function(gpio_to_iomux(2), IOMUX_GPIO2_FUNC_I2SO_WS);
     }
+
+    LOG(TRACE, "i2s: Initializing clock");
 
     // enable clock to i2s subsystem
     i2c_writeReg_Mask_def(i2c_bbpll, i2c_bbpll_en_audio_clock_out, 1);
@@ -135,13 +143,15 @@ i2s_clock_div_t i2s_get_clock_div(int32_t freq) {
         }
     }
 
-    LOG(DEBUG, "Requested frequency: %d, set frequency: %d", freq, best_freq);
-    LOG(DEBUG, "clkm_div: %d, bclk_div: %d", div.clkm_div, div.bclk_div);
+    LOG(DEBUG, "i2s: Requested frequency: %d, set frequency: %d", freq, best_freq);
+    LOG(DEBUG, "i2s: clkm_div: %d, bclk_div: %d", div.clkm_div, div.bclk_div);
 
     return div;
 }
 
 void i2s_dma_start(dma_descriptor_t *descr) {
+    LOG(TRACE, "i2s: Starting DMA transfer");
+
     // configure DMA descriptor
     SLC.RX_LINK = SET_FIELD(SLC.RX_LINK, SLC_RX_LINK_DESCRIPTOR_ADDR, 0);
     SLC.RX_LINK = SET_FIELD(SLC.RX_LINK, SLC_RX_LINK_DESCRIPTOR_ADDR, (uint32_t)descr);
@@ -154,6 +164,7 @@ void i2s_dma_start(dma_descriptor_t *descr) {
 }
 
 void i2s_dma_stop() {
+    LOG(TRACE, "i2s: Stopping DMA transfer");
     SLC.RX_LINK = SET_FIELD(SLC.RX_LINK, SLC_RX_LINK_DESCRIPTOR_ADDR, 0);
     CLEAR_MASK_BITS(I2S.FIFO_CONF, I2S_FIFO_CONF_DESCRIPTOR_ENABLE);
 }
