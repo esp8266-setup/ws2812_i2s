@@ -34,6 +34,8 @@
 // The following definitions is taken from ESP8266_MP3_DECODER demo
 // https://github.com/espressif/ESP8266_MP3_DECODER/blob/master/mp3/driver/i2s_freertos.c
 // It is requred to set clock to I2S subsystem
+void rom_i2c_writeReg_Mask(uint32_t block, uint32_t host_id,
+        uint32_t reg_add, uint32_t Msb, uint32_t Lsb, uint32_t indata);
 
 #ifndef i2c_bbpll
 #define i2c_bbpll                               0x67
