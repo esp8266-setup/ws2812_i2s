@@ -1,0 +1,12 @@
+{
+    "sdk_dependencies": [], 
+    "name": "ws2812_i2s", 
+    "license": "MIT", 
+    "author": "Johannes Schriewer <hallo@dunkelstern.de>", 
+    "url": "git+https://github.com/esp8266-setup/ws2812-i2s.git", 
+    "version": "1.0.0",
+    "dependencies": [], 
+    "extra_includes": "", 
+    "extra_cflags": "-DLED_TYPE=LED_TYPE_WS2812 -DLED_MODE=LED_MODE_RGB", 
+    "extra_ldflags": ""
+}
